@@ -1,16 +1,25 @@
 import { Box, IconButton } from '@chakra-ui/react';
 import { CiTrash } from 'react-icons/ci';
 import { useStore } from '../store';
+import { toaster } from './ui/toaster';
 
 export default function NodeContextMenu({ id, top, left, right, bottom, ...props }) {
-  const { updateNode, removeNode, nodes, edges, removeEdge } = useStore();
+  const { removeNode, edges, removeEdge } = useStore();
 
   const removeRightEdges = () => {
     const edgesToRemove = edges.filter((edge) => edge.source == id);
     edgesToRemove.forEach(removeEdge);
+    toaster.create({
+      description: 'Removed right edges',
+      type: 'success',
+    });
   };
 
   const removeLeftEdges = () => {
+    toaster.create({
+      description: 'Removed left edges',
+      type: 'success',
+    });
     const edgesToRemove = edges.filter((edge) => edge.target == id);
     edgesToRemove.forEach(removeEdge);
   };

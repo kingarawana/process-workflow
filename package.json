@@ -2,6 +2,7 @@
   "name": "reactflow-example",
   "private": true,
   "version": "1.0.0",
+  "author": "Khon Lieu",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

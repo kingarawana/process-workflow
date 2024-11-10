@@ -10,6 +10,8 @@ import { areAllPriorNodesComplete } from '../services/node';
 interface State {
   nodes: CustomNode[];
   edges: Edge[];
+  interactiveMode: boolean;
+  setInteractiveMode: (interactiveMode: boolean) => void;
   addNode: (node: CustomNode) => void;
   setNodes: (node: CustomNode[]) => void;
   setEdges: (edge: Edge[]) => void;
@@ -29,6 +31,8 @@ const savedState = getSavedState();
 export const useStore = create<State>((set) => ({
   nodes: savedState.nodes || initialNodes,
   edges: savedState.edges || initialEdges,
+  interactiveMode: false,
+  setInteractiveMode: (interactiveMode) => set((state) => ({ interactiveMode })),
   setNodes: (nodes) =>
     set(() => ({
       nodes,

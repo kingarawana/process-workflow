@@ -5,15 +5,13 @@ import { useStore } from '../store';
 import { Box, Input, Icon } from '@chakra-ui/react';
 import { Checkbox } from './ui/checkbox';
 import { CustomNode } from '../store/types';
-import { CiTrash } from 'react-icons/ci';
 
 const EditableNode = ({ id, data, selected }: NodeProps<CustomNode>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [label, setLabel] = useState(data.label);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { updateNode, removeNode, updateNodeCompleted } = useStore();
-
+  const { updateNode, removeNode, updateNodeCompleted, interactiveMode } = useStore();
   const handleDoubleClick = (event: React.MouseEvent) => {
     setIsEditing(true);
   };
@@ -39,7 +37,7 @@ const EditableNode = ({ id, data, selected }: NodeProps<CustomNode>) => {
       width="100px"
       border={selected ? '2px solid blue' : '1px solid black'}
       borderRadius={5}
-      bg={data.allPriorCompleted && !data.isComplete ? 'green' : 'white'}
+      bg={data.allPriorCompleted && !data.isComplete && interactiveMode ? 'green' : 'white'}
     >
       <Box display="flex" justifyContent="space-between">
         {isEditing ? (
@@ -59,7 +57,6 @@ const EditableNode = ({ id, data, selected }: NodeProps<CustomNode>) => {
           checked={data.isComplete}
           size="sm"
           onClick={(e) => {
-            console.log('clicked xxx', data);
             const node = { id, data: { ...data, isComplete: !data.isComplete } };
             // updateNode(node);
             updateNodeCompleted(node);

@@ -29,7 +29,6 @@ export const initialEdges = [
     markerend: {
       type: MarkerType.ArrowClosed,
     },
-    animated: true,
   },
   {
     id: 'e2-3',

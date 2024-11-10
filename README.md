@@ -1,11 +1,25 @@
-## TODO:
-1. add a trash icon to each node so users can delete a node
-   - i might want to add an "edit" button at the top so we only show the trash icon if the edit button is clicked
-2. Come up with the graph algorithm so that only when all nodes that point to it are complete do we mark it to be worked on
-3. move the code in app.tsx to it's own component so I can reuse it
-4. in app add the ability create new tabs and add a "New Project +" button
-   - when user clicks new project, it should add a new tab
-5. Add a Hadrian Logo a the top
+# Hadrian Process Chart
+### Author: Khon Lieu
 
+## Setup
 
-- show toast if user completes all tasks
+Install dependencies:
+   ```bash
+  npm install
+   ````
+
+## Start
+Run the project in dev:
+   ```bash
+   npm run dev
+   ````
+Visit
+   ```
+      http://localhost:5173/
+   ```
+
+## Note
+1. To delete nodes or edges, right click on a node to show a context menu.
+2. Right now deleting edges will delete all incoming or outgoing edges. I'm quite sure we can create a custom edge to enable context menus for edges so that we can delete individual edges. I couldn't find a way to plug into context menus on their default edge.
+3. ALso thought about creating tabs so that each tab showed a new instance of Chart, but ran out of time. It would have required to update to the storage process as well.
+4. The code in `src/components/ui` are auto created by the chakra library
