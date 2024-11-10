@@ -15,7 +15,6 @@ import { Button } from '@chakra-ui/react';
 import { Switch } from './ui/switch';
 import NodeContextMenu from './NodeContextMenu';
 import EditableNode from './EditableNode';
-import { Tooltip } from './ui/tooltip';
 
 export const Chart = () => {
   const {
