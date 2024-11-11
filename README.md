@@ -3,6 +3,10 @@
 
 ## Setup
 
+Pre-condition:
+
+Use NVM to install node `v20.15.0`. I believe anything above `v20` should be fine. I know for sure `>=v20.15.0` works.
+
 Install dependencies:
    ```bash
   npm install
