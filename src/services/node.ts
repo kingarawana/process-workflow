@@ -10,10 +10,13 @@ export const areAllPriorNodesComplete = (
     .filter((edge) => edge.target === currentNode.id)
     .map((edge) => edge.source);
 
-  // If no prior nodes, consider it complete
-  if (priorNodeIds.length === 0) return true;
+  // Check if the current node has at least one outgoing edge
+  const hasOutgoingEdges = edges.some((edge) => edge.source === currentNode.id);
 
-  // Return true only if the current node is isComplete and all prior nodes are complete
+  // If no prior nodes and no outgoing edges, return false (it's a free-floating node)
+  if (!priorNodeIds.length && !hasOutgoingEdges) return false;
+
+  // Return true only if the current node is `isComplete` and all prior nodes are complete
   return priorNodeIds.every((priorNodeId) => {
     const priorNode = allNodes[priorNodeId];
     return priorNode.data.isComplete && areAllPriorNodesComplete(allNodes, edges, priorNode);
