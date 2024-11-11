@@ -7,7 +7,7 @@ import { Checkbox } from './ui/checkbox';
 import { CustomNode } from '../store/types';
 import { toaster } from './ui/toaster';
 
-const EditableNode = ({ id, data, selected }: NodeProps<CustomNode>) => {
+const EditableNode = ({ id, data }: NodeProps<CustomNode>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [label, setLabel] = useState(data.label);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -36,7 +36,7 @@ const EditableNode = ({ id, data, selected }: NodeProps<CustomNode>) => {
     <Box
       padding="10px"
       width="100px"
-      border={selected ? '2px solid blue' : '1px solid black'}
+      border={isEditing ? '2px solid blue' : '1px solid black'}
       borderRadius={5}
       bg={data.allPriorCompleted && !data.isComplete && interactiveMode ? 'green' : 'white'}
     >

@@ -107,12 +107,6 @@ export const Chart = () => {
           }
         });
       }}
-      onEdgesChange={(edges) => {
-        console.log('edge change', edges);
-      }}
-      onNodeDoubleClick={() => {
-        console.log('double clicked');
-      }}
       elementsSelectable={true}
       nodesConnectable={true}
       nodesDraggable={true}
