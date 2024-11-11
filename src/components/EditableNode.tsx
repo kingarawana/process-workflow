@@ -5,13 +5,14 @@ import { useStore } from '../store';
 import { Box, Input, Icon } from '@chakra-ui/react';
 import { Checkbox } from './ui/checkbox';
 import { CustomNode } from '../store/types';
+import { toaster } from './ui/toaster';
 
 const EditableNode = ({ id, data, selected }: NodeProps<CustomNode>) => {
   const [isEditing, setIsEditing] = useState(false);
   const [label, setLabel] = useState(data.label);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { updateNode, removeNode, updateNodeCompleted, interactiveMode } = useStore();
+  const { updateNode, updateNodeCompleted, interactiveMode, nodes } = useStore();
   const handleDoubleClick = (event: React.MouseEvent) => {
     setIsEditing(true);
   };
@@ -60,6 +61,15 @@ const EditableNode = ({ id, data, selected }: NodeProps<CustomNode>) => {
             const node = { id, data: { ...data, isComplete: !data.isComplete } };
             // updateNode(node);
             updateNodeCompleted(node);
+            if (
+              nodes.filter((node) => node.id !== id).every((node) => node.data.isComplete) &&
+              !data.isComplete
+            ) {
+              toaster.create({
+                description: 'Good job! Project completed!',
+                type: 'success',
+              });
+            }
             e.preventDefault(); // for some reason onClick was getting triggered twice without this.
           }}
           onChange={(change) => {
