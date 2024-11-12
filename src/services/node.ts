@@ -25,7 +25,9 @@ export const areAllPriorNodesComplete = (
    * within my `refreshAllPriorCompleted` function, that way we can guarantee that we are checking
    * from the bottom-up (or top down depending on how you visualize the graph) and change the line
    * `return priorNode.data.isComplete && areAllPriorNodesComplete(allNodes, edges, priorNode);`
-   * to return priorNode.data.isComplete && priorNode.data.allPriorCompleted;`
+   * to return priorNode.data.isComplete && priorNode.data.allPriorCompleted;`. By doing this
+   * we go from an exponential time complexity to a linear time complexity of O(n + e) n = num nodes
+   * e = num edges.
    *
    * In a production system, I would definitely recommend and put time towards this since in prod
    * environments, I'm sure the process workflows get extremely deep and interconnected.
