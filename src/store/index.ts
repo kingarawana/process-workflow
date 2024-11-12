@@ -5,7 +5,7 @@ import { CustomNode } from './types';
 import { v4 as uuidv4 } from 'uuid';
 import { getSavedState } from '../services/storage';
 import { initialEdges, initialNodes } from './data';
-import { areAllPriorNodesComplete } from '../services/node';
+import { areAllPriorNodesComplete, topologicalSort } from '../services/node';
 
 interface State {
   nodes: CustomNode[];
@@ -45,7 +45,12 @@ export const useStore = create<State>((set) => ({
   createNodeAndAddNode: (node) =>
     set((state) => {
       const nodes = state.nodes;
-      const lastNode = nodes[nodes.length - 1];
+      // const lastNode = nodes[nodes.length - 1];
+
+      // Since I'm doing topological sort, I have to resort the nodes so the furthest right node is considered the first node
+      // I also assume there's at least one node already on the page, which is true in this case since I default to 3
+      // nodes on the page.
+      const lastNode = nodes.sort((a, b) => b.position.x - a.position.x)[0];
       const newPosition = lastNode
         ? { x: lastNode.position.x + 200, y: lastNode.position.y }
         : { x: 100, y: 100 }; // Initial position if there are no nodes
@@ -121,7 +126,9 @@ export const useStore = create<State>((set) => ({
         return acc;
       }, {});
 
-      const newNodes = state.nodes.map((curNode) => ({
+      const sortedNodes = topologicalSort(state.nodes, state.edges);
+
+      const newNodes = sortedNodes.map((curNode) => ({
         ...curNode,
         data: {
           ...curNode.data,
@@ -150,8 +157,6 @@ export const useStore = create<State>((set) => ({
   addEdge: (edge) => set((state) => ({ edges: addEdge(edge, state.edges) })),
   removeEdge: (edge) =>
     set((state) => ({
-      edges: state.edges.filter(
-        (curEdge) => curEdge.target !== edge.target && curEdge.source !== edge.source,
-      ),
+      edges: state.edges.filter((curEdge) => curEdge.target !== edge.target),
     })),
 }));
