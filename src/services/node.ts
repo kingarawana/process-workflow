@@ -17,6 +17,19 @@ export const areAllPriorNodesComplete = (
   if (!priorNodeIds.length && !hasOutgoingEdges) return false;
 
   // Return true only if the current node is `isComplete` and all prior nodes are complete
+  /**
+   * An additional note. I know this implementation is suboptimal. I didn't have time to implement
+   * a more optimal solution, but I'll describe it here. Instead of calling `areAllPriorNodesComplete`
+   * recursively on each node, essentially recomputing the same nodes several times depending on
+   * how many other edges has this as the source, we could do a topological presort of the nodes
+   * within my `refreshAllPriorCompleted` function, that way we can guarantee that we are checking
+   * from the bottom-up (or top down depending on how you visualize the graph) and change the line
+   * `return priorNode.data.isComplete && areAllPriorNodesComplete(allNodes, edges, priorNode);`
+   * to return priorNode.data.isComplete && priorNode.data.allPriorCompleted;`
+   *
+   * In a production system, I would definitely recommend and put time towards this since in prod
+   * environments, I'm sure the process workflows get extremely deep and interconnected.
+   */
   return priorNodeIds.every((priorNodeId) => {
     const priorNode = allNodes[priorNodeId];
     return priorNode.data.isComplete && areAllPriorNodesComplete(allNodes, edges, priorNode);
