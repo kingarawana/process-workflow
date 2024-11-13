@@ -58,18 +58,26 @@ const EditableNode = ({ id, data }: NodeProps<CustomNode>) => {
           checked={data.isComplete}
           size="sm"
           onClick={(e) => {
-            const node = { id, data: { ...data, isComplete: !data.isComplete } };
-            // updateNode(node);
-            updateNodeCompleted(node);
-            if (
-              nodes.filter((node) => node.id !== id).every((node) => node.data.isComplete) &&
-              !data.isComplete
-            ) {
+            if (data.allPriorCompleted) {
+              const node = { id, data: { ...data, isComplete: !data.isComplete } };
+
+              updateNodeCompleted(node);
+              if (
+                nodes.filter((node) => node.id !== id).every((node) => node.data.isComplete) &&
+                !data.isComplete
+              ) {
+                toaster.create({
+                  description: 'Good job! Project completed!',
+                  type: 'success',
+                });
+              }
+            } else {
               toaster.create({
-                description: 'Good job! Project completed!',
-                type: 'success',
+                description: 'Node can only be completed if all prior nodes are completed',
+                type: 'warning',
               });
             }
+
             e.preventDefault(); // for some reason onClick was getting triggered twice without this.
           }}
           onChange={(change) => {
